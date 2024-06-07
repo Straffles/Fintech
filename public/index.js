@@ -1,4 +1,5 @@
 
+
 function createTable() {
     // Get user input elements
     const dateInput = document.getElementById("dateInput");
