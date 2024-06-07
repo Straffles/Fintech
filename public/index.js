@@ -1,16 +1,16 @@
-import { getDatabase } from "firebase/database";
+// import { getDatabase } from "firebase/database";
 
-const database = getDatabase()
+// const database = getDatabase()
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
-  authDomain: "fintech-f6a7d.firebaseapp.com",
-  projectId: "fintech-f6a7d",
-  storageBucket: "fintech-f6a7d.appspot.com",
-  messagingSenderId: "703004071046",
-  appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
-};
-firebase.initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//   apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
+//   authDomain: "fintech-f6a7d.firebaseapp.com",
+//   projectId: "fintech-f6a7d",
+//   storageBucket: "fintech-f6a7d.appspot.com",
+//   messagingSenderId: "703004071046",
+//   appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
+// };
+// firebase.initializeApp(firebaseConfig);
 
 
 
