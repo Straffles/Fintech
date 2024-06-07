@@ -49,8 +49,9 @@
     <script src="index.js"></script>
     <script>
         flatpickr("#dateInput", {})
-
-
+        import {initializeApp} from "firebase/app";
+        import firebase from "firebase/app";
+        import "firebase/database";
         const firebaseConfig = {
           apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
           authDomain: "fintech-f6a7d.firebaseapp.com",
@@ -60,7 +61,8 @@
           appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
         };
         firebase.initializeApp(firebaseConfig);
-        
+
+
     </script>
   </body>
 </html>
