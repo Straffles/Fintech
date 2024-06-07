@@ -39,9 +39,21 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="index.js"></script>
+    <script src="./JS/Calculator.js"></script>
     <script>
         flatpickr("#dateInput", {})
+
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
+          authDomain: "fintech-f6a7d.firebaseapp.com",
+          projectId: "fintech-f6a7d",
+          storageBucket: "fintech-f6a7d.appspot.com",
+          messagingSenderId: "703004071046",
+          appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
+        };
+        firebase.initializeApp(firebaseConfig);
+        
     </script>
   </body>
 </html>
