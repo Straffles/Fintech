@@ -24,10 +24,18 @@ const CONFIG =  {
 
 const client = new vision.ImageAnnotatorClient(CONFIG);
 
-const detectLandmark = async(file_path) => {
-    let [result] = await client.textDetection('hoa-don-do.jpg');
+const detectText = async(file_path) => {
+    let [result] = await client.textDetection('hoadondo.jpg');
 
-    console.log(result);
+    const text = result.fullTextAnnotation.text;
+    words = text.split(/[\s\n]+/);
+    console.log(words)
+
+    if (words.includes('Ngày')){
+        dateIndex = words.indexOf('Ngày') + 1;
+        date = words[dateIndex];
+        console.log(date);
+    };
 }
 
-detectLandmark();
+detectText();

@@ -41,10 +41,17 @@ function createTable() {
     // Get the uploaded picture filename
     const pictureCell = document.createElement("td");
     const selectedFile = pictureInput.files[0];
+    
+
     if (selectedFile) {
-      pictureCell.innerHTML = selectedFile.name; // Add picture to cell
+      const image = document.createElement('img');
+      image.src = selectedFile.name;
+      pictureCell.appendChild(image); // Add picture to cell
     } else {
-      pictureCell.textContent = "";
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      pictureCell.appendChild(input); // Add an upload section if user didn't upload a picture initially
     }
   
     // Append cells to the row
