@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table with User Inputs and Calculations</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  />
+
+  <body>
+    <h1>Expense Tracker</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Tax Rate</th>
+          <th>Taxable Amount</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+     
+    <div class="input-container">
+      <label for="dateInput">Date:</label>
+      <input type="datetime-local" id="dateInput" placeholder="Enter Date" />
+      <label for="amountInput">Amount:</label>
+      <input type="number" id="amountInput" placeholder="Enter Amount" />
+      <label for="categoryInput">Category:</label>
+      <input type="text" id="categoryInput" placeholder="Enter Category" />
+      <label for="taxRateInput">Tax Rate (%):</label>
+      <input type="number" id="taxRateInput" placeholder="Enter Tax Rate" />
+      <button onclick="createTable()">Add Entry</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="./Calculator/Calculator.js"></script>
+    <script>
+        flatpickr("#dateInput", {})
+    </script>
+  </body>
+</html>
