@@ -5,6 +5,7 @@ function createTable() {
     const amountInput = document.getElementById("amountInput");
     const categoryInput = document.getElementById("categoryInput");
     const taxRateInput = document.getElementById("taxRateInput");
+    const pictureInput = document.getElementById("pictureInput");
     const tableBody = document.getElementById("tableBody");
   
     // Check if any input is empty
@@ -35,6 +36,15 @@ function createTable() {
     const taxableAmount = parseFloat(amountInput.value) / (1 + parseFloat(taxRateInput.value) / 100);
     const taxableAmountCell = document.createElement("td");
     taxableAmountCell.textContent = taxableAmount.toFixed(2); // Format to 2 decimal places
+
+    // Get the uploaded picture filename
+    const pictureCell = document.createElement("td");
+    const selectedFile = pictureInput.files[0];
+    if (selectedFile) {
+      pictureCell.innerHTML = selectedFile.name; // Add picture to cell
+    } else {
+      pictureCell.textContent = "";
+    }
   
     // Append cells to the row
     newRow.appendChild(dateCell);
@@ -42,6 +52,7 @@ function createTable() {
     newRow.appendChild(categoryCell);
     newRow.appendChild(taxRateCell);
     newRow.appendChild(taxableAmountCell);
+    newRow.appendChild(pictureCell);
   
     // Append the row to the table body
     tableBody.appendChild(newRow);
@@ -63,7 +74,7 @@ function createTable() {
   });
 
   
-    // Clear user input fields
+    // Clear user input fields (except picture)
     dateInput.value = "";
     amountInput.value = "";
     categoryInput.value = "";
