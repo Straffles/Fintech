@@ -1,3 +1,20 @@
+import { getDatabase } from "firebase/database";
+
+const database = getDatabase()
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+
+
+
 function createTable() {
     // Get user input elements
     const dateInput = document.getElementById("dateInput");
@@ -44,6 +61,27 @@ function createTable() {
   
     // Append the row to the table body
     tableBody.appendChild(newRow);
+
+
+
+    database.ref("tableRows").push({
+      date: dateInput.value,
+      amount: amountInput.value,
+      category: categoryInput.value,
+      taxRate: taxRateInput.value,
+      taxableAmount: taxableAmount.toFixed(2)
+  })
+  .then(() => {
+      console.log("Data successfully saved to Firebase.");
+  })
+  .catch((error) => {
+      console.error("Error saving data to Firebase: ", error);
+  });
+
+  dateInput.value = "";
+  amountInput.value = "";
+  categoryInput.value = "";
+  taxRateInput.value = "";
   
     // Clear user input fields
     dateInput.value = "";
@@ -51,3 +89,39 @@ function createTable() {
     categoryInput.value = "";
     taxRateInput.value = "";
   }
+
+
+  function populateTableFromFirebase() {
+    const database = firebase.database();
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+
+    database.ref("tableRows").once("value")
+    .then((snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            const rowData = childSnapshot.val();
+            const newRow = document.createElement("tr");
+            const dateCell = document.createElement("td");
+            dateCell.textContent = rowData.date;
+            const amountCell = document.createElement("td");
+            amountCell.textContent = rowData.amount;
+            const categoryCell = document.createElement("td");
+            categoryCell.textContent = rowData.category;
+            const taxRateCell = document.createElement("td");
+            taxRateCell.textContent = rowData.taxRate + "%";
+            const taxableAmountCell = document.createElement("td");
+            taxableAmountCell.textContent = rowData.taxableAmount;
+            newRow.appendChild(dateCell);
+            newRow.appendChild(amountCell);
+            newRow.appendChild(categoryCell);
+            newRow.appendChild(taxRateCell);
+            newRow.appendChild(taxableAmountCell);
+            tableBody.appendChild(newRow);
+        });
+    })
+    .catch((error) => {
+        console.error("Error fetching data from Firebase: ", error);
+    });
+}
+
+window.addEventListener("load", populateTableFromFirebase);
