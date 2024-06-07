@@ -3,13 +3,12 @@ import { getDatabase } from "firebase/database";
 const database = getDatabase()
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DATABASE_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
+  authDomain: "fintech-f6a7d.firebaseapp.com",
+  projectId: "fintech-f6a7d",
+  storageBucket: "fintech-f6a7d.appspot.com",
+  messagingSenderId: "703004071046",
+  appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
 };
 firebase.initializeApp(firebaseConfig);
 
