@@ -1,68 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Table with User Inputs and Calculations</title>
-    <link rel="stylesheet" href="./CSS/style.css" />
-    <!-- Firebase Configuration -->
-<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
-
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Table</title>
+    <link rel="stylesheet" href="/public/CSS/style.css">
+</head>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
   />
+<body>
+    <h2>Inputes Form</h2>
+    <form id="inputForm">
+        <label for="dateInput">Date:</label>
+        <input type="datetime-local" id="dateInput" placeholder="Enter Date" />
+        <br>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount">
+        <br>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="">Select Category</option>
+            <option value="Category 1">Category 1</option>
+            <option value="Category 2">Category 2</option>
+            <option value="Category 3">Category 3</option>
+        </select>
+        <label for="pictureInput">Picture:</label>
+        <input type="file" id="pictureInput" accept="image/*">
+        <br>
+        <button type="button" onclick="addRow()">Add Row</button>
+        <button type="button" onclick="document.getElementById('inputForm').reset()">Reset</button>
+        <button type="button" onclick="confirmClear()">Clear Table</button>
+    </form>
 
-  <body>
-    <h1>Expense Tracker</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Category</th>
-          <th>Tax Rate</th>
-          <th>Taxable Amount</th>
-          <th>Picture</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-     
-    <div class="input-container">
-      <label for="dateInput">Date:</label>
-      <input type="datetime-local" id="dateInput" placeholder="Enter Date" />
-      <label for="amountInput">Amount:</label>
-      <input type="number" id="amountInput" placeholder="Enter Amount" />
-      <label for="categoryInput">Category:</label>
-      <input type="text" id="categoryInput" placeholder="Enter Category" />
-      <label for="taxRateInput">Tax Rate (%):</label>
-      <input type="number" id="taxRateInput" placeholder="Enter Tax Rate" />
-      <label for="pictureInput">Picture:</label>
-      <input type="file" id="pictureInput" accept="image/*">
-      <button onclick="createTable()">Add Entry</button>
-    </div>
+    <h2>Input Table</h2>
+    <table id="inputTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Tax Rate (%)</th>
+                <th>Taxable Amount</th>
+                <th>Picture</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+<br>
+<br>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="index.js"></script>
-    <script>
-        flatpickr("#dateInput", {})
-        import {initializeApp} from "firebase/app";
-        import firebase from "firebase/app";
-        import "firebase/database";
-        const firebaseConfig = {
-          apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
-          authDomain: "fintech-f6a7d.firebaseapp.com",
-          projectId: "fintech-f6a7d",
-          storageBucket: "fintech-f6a7d.appspot.com",
-          messagingSenderId: "703004071046",
-          appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
-        };
-        firebase.initializeApp(firebaseConfig);
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <!-- <script src="/test.js"></script> -->
 
-
-    </script>
-  </body>
+        <script>
+          // Your web app's Firebase configuration
+          // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD8RLQ5hS3r7809eJQIhaCTQP2slDvNJh4",
+  authDomain: "fintech-f6a7d.firebaseapp.com",
+  databaseURL: "https://fintech-f6a7d-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "fintech-f6a7d",
+  storageBucket: "fintech-f6a7d.appspot.com",
+  messagingSenderId: "703004071046",
+  appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
+};
+  
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          var database = firebase.database();
+  
+          const taxRates = {
+              'Category 1': 5,
+              'Category 2': 20,
+              'Category 3': 8
+          };
+  
+          // Load saved data from Firebase
+          document.addEventListener('DOMContentLoaded', loadTable);
+  
+          function addRow() {
+              // Get form elements
+              const dateElem = document.getElementById('dateInput');
+              const amountElem = document.getElementById('amount');
+              const categoryElem = document.getElementById('category');
+  
+              // Validate form
+              if (!dateElem.value) {
+                  alert('Please enter a valid date.');
+                  return;
+              }
+              if (!amountElem.value || parseFloat(amountElem.value) <= 0) {
+                  alert('Please enter a valid amount greater than 0.');
+                  return;
+              }
+              if (!categoryElem.value) {
+                  alert('Please select a category.');
+                  return;
+              }
+  
+              // Get form values
+              const date = dateElem.value;
+              const amount = parseFloat(amountElem.value);
+              const category = categoryElem.value;
+              const taxRate = taxRates[category];
+  
+              // Calculate taxable amount
+              const taxableAmount = (amount * (taxRate / 100)).toFixed(2);
+  
+              // Create a new row
+              const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+              const newRow = table.insertRow();
+  
+              // Insert cells and add values
+              newRow.insertCell(0).innerText = date;
+              newRow.insertCell(1).innerText = amount.toFixed(2);
+              newRow.insertCell(2).innerText = category;
+              newRow.insertCell(3).innerText = taxRate.toFixed(2);
+              newRow.insertCell(4).innerText = taxableAmount;
+  
+              // Save the updated table to Firebase
+              saveTable();
+  
+              // Clear the form inputs
+              document.getElementById('inputForm').reset();
+          }
+  
+          function saveTable() {
+              const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+              const rows = Array.from(table.rows);
+              const data = rows.map(row => {
+                  return {
+                      date: row.cells[0].innerText,
+                      amount: row.cells[1].innerText,
+                      category: row.cells[2].innerText,
+                      taxRate: row.cells[3].innerText,
+                      taxableAmount: row.cells[4].innerText
+                  };
+              });
+              database.ref('tableData').set(data);
+          }
+  
+          function loadTable() {
+              database.ref('tableData').once('value', snapshot => {
+                  const data = snapshot.val() || [];
+                  const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+                  data.forEach(item => {
+                      const newRow = table.insertRow();
+                      newRow.insertCell(0).innerText = item.date;
+                      newRow.insertCell(1).innerText = item.amount;
+                      newRow.insertCell(2).innerText = item.category;
+                      newRow.insertCell(3).innerText = item.taxRate;
+                      newRow.insertCell(4).innerText = item.taxableAmount;
+                  });
+              });
+          }
+  
+          function confirmClear() {
+              if (confirm('Are you sure you want to clear the table?')) {
+                  clearTable();
+              }
+          }
+  
+          function clearTable() {
+              const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+              table.innerHTML = '';
+              database.ref('tableData').remove();
+          }
+      </script>
+</body>
 </html>
