@@ -30,7 +30,7 @@ const client = new vision.ImageAnnotatorClient(CONFIG);
 
 //Scan document when file is uploaded
 window.addEventListener("fileUploadSuccess", function (e) {
-   const image = "../hoadondo2.jpg";
+   const image = this.value;
 
    const detectText = async (file_path) => {
       let [result] = await client.textDetection(image);
