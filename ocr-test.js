@@ -32,7 +32,7 @@ const detectText = async(file_path) => {
     //convert and split text to an array
     const text = result.fullTextAnnotation.text.toLowerCase();
     words = text.split(/[\s\n]+/);
-    console.dir(words, {'maxArrayLength': null});
+    // console.dir(words, {'maxArrayLength': null});
 
 
     //Check for date
