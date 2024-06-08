@@ -1,5 +1,5 @@
 //setup and init for GCV API
-import vision from './@google-cloud/vision'
+import vision from '../node_modules/@google-cloud/vision'
 
 const CREDENTIALS = JSON.parse(
    JSON.stringify({
@@ -85,9 +85,9 @@ window.addEventListener("fileUploadSuccess", function (e) {
          console.log("Tax Rate:", taxRate);
       }
 
-      //Calculate taxable amount
-      // taxable = amount * (taxRate / 100);
-      // console.log('Taxable:', taxable);
+      // Calculate taxable amount
+      taxable = amount * (taxRate / 100);
+      console.log('Taxable:', taxable);
    };
    detectText();
 });

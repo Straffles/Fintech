@@ -27,66 +27,13 @@ const client = new vision.ImageAnnotatorClient(CONFIG);
 const image = "hoadondo2.jpg";
 
 const detectText = async(file_path) => {
-    // let [result] = await client.textDetection(image);
+    let [result] = await client.textDetection(image);
 
-    // //convert and split text to an array
-    // const text = result.fullTextAnnotation.text.toLowerCase();
-    // words = text.split(/[\s\n]+/);
-    // console.dir(words, {'maxArrayLength': null});
+    //convert and split text to an array
+    const text = result.fullTextAnnotation.text.toLowerCase();
+    words = text.split(/[\s\n]+/);
+    console.dir(words, {'maxArrayLength': null});
 
-    words = [
-      'hóa',       'đơn',           'giá',        'trị',
-      'gia',       'tăng',          'liên',       '2:',
-      'giao',      'cho',           'người',      'mua',
-      'ngày',      '16',            'tháng',      '01',
-      'năm',       'đơn',           'vị',         'bán',
-      'hàng',      ':',             'công',       'ty',
-      'cổ',        'phần',          'abc',        'mã',
-      'số',        'thuế:',         'địa',        'chỉ:',
-      'số',        '1258',          'đội',        'cẩn,',
-      'ba',        'đình,',         'hà',         'nội',
-      'điện',      'thoại:',        'họ',         'tên',
-      'người',     'mua',           'hàng.',      'tên',
-      'đơn',       'vị',            '.',          'công',
-      'ty',        'tnhh',          'bảo',        'oanh',
-      'mã',        'số',            'thuế:',      'địa',
-      'chỉ:',      'số',            '4157',       'nguyễn',
-      'trãi,',     'thanh',         'xuân,',      'hà',
-      'nội',       'hình',          'thức',       'thanh',
-      'toán:',     'tmck',          'số',         'tài',
-      'khoản',     '2017',          'masó:',      '01gtkt3/001',
-      'ký',        'hiệu',          'ab/17',      'só:',
-      '0000007',   'số',            'tài',        'khoản',
-      'stt',       'mã',            'hàng',       'tên',
-      'hãng',      'hóa,',          'dịch',       'vụ',
-      'đơn',       'vị',            'tính',       'số',
-      'lượng',     'đơn',           'giá',        'a',
-      'b',         'c',             'd',          '1',
-      '2',         'thành',         'tiền',       '3=1x2',
-      '1',         'dell',          'xps',        '13',
-      'máy',       'tnh',           'xách',       'tay',
-      'dell',      'xps',           '13',         'chiếc',
-      '200',       '15.899.000,00', '31.798.000', 'thuế',
-      'suất',      'gtgt:',         '10%',        'số',
-      'tiền',      'viết',          'bằng',       'chữ',
-      'người',     'mua',           'hàng',       '(ký,',
-      'ghi',       'rõ',            'họ,',        'tên)',
-      'cộng',      'tiền',          'hàng:',      '31',
-      '798.000',   'tiền',          'thuế',       'gtgt:',
-      '3.178.800', 'tổng',          'tiền',       'thanh',
-      'toán:',     '34.977.800',    'ba',         'mươi',
-      'bốn',       'triệu',         'chín',       'trăm',
-      'bảy',       'mươi',          'bảy',        'nghìn',
-      'tâm',       'trăm',          'đồng',       'chẵn.',
-      'người',     'bán',           'hàng',       '(ký,',
-      'ghi',       'rõ',            'họ,',        'tên)',
-      'thủ',       'trưởng',        'đơn',        'vị',
-      '(ký,',      'đóng',          'dấu,',       'ghi',
-      'rõ',        'họ',            'tên)',       '(cần',
-      'kiểm',      'tra,',          'đối',        'chiếu',
-      'trước',     'khi',           'lập,',       'giao,',
-      'nhận',      'hóa',           'đơn)'
-    ]
 
     //Check for date
     if (words.includes('ngày')){
