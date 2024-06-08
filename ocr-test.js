@@ -112,7 +112,7 @@ const detectText = async(file_path) => {
     if (words.includes('cộng')){
         amountIndex = words.indexOf('cộng') + 3;
         amount = words[amountIndex] + '.' + words[amountIndex + 1];
-        amount = amount.replace('.', '')
+        amount = amount.replace(/[.]/g, '')
         amount = parseInt(amount)
         console.log('Amount:', amount);
     };

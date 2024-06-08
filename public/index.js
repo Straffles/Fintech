@@ -124,3 +124,4 @@
 // }
 
 // window.addEventListener("load", populateTableFromFirebase);
+
