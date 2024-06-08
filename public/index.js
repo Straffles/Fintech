@@ -1,6 +1,6 @@
 
-      //setup and init for GCP API
-      const vision = require('@google-cloud/vision')
+      //setup and init for GCV API
+      const vision = require('@google-cloud/vision');
 
       const CREDENTIALS = JSON.parse(JSON.stringify({
           "type": "service_account",
@@ -27,7 +27,7 @@
       const client = new vision.ImageAnnotatorClient(CONFIG);
 
 //Scan document when file is uploaded
-// window.addEventListener("fileUploadSuccess", function (e) {
+window.addEventListener("fileUploadSuccess", function (e) {
 
   const image = "../hoadondo2.jpg";
   
@@ -93,6 +93,6 @@
   }   
       detectText();
       
-      // });
+      });
   
       
