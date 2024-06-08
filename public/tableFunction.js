@@ -9,6 +9,17 @@
             appId: "1:703004071046:web:148a4d2cb17edc23bf2d07"
         };
 
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get today's date
+            const today = new Date().toISOString().split('T')[0];
+
+            // Initialize Flatpickr
+            flatpickr("#dateInput", {
+                maxDate: today
+            });
+        });
+
+        
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         var database = firebase.database();
@@ -71,6 +82,7 @@
                 // No image selected, just add the row without image
                 addTableRow(date, formattedAmount, category, taxRate * 100 + "%", formattedTaxableAmount, null);
             }
+            
         }
 
         function addTableRow(date, amount, category, taxRate, taxableAmount, imageURL) {
@@ -111,6 +123,7 @@
 
             // Clear the form inputs
             document.getElementById('inputForm').reset();
+            window.location.reload();
         }
 
         function saveTable() {
@@ -130,11 +143,57 @@
             database.ref('tableData').set(data);
         }
 
+        // function loadTable() {
+        //     database.ref('tableData').once('value', snapshot => {
+        //         const data = snapshot.val() || [];
+        //         const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+        //         table.innerHTML = ''; // Clear the table before adding rows
+        //         data.forEach(item => {
+        //             const newRow = table.insertRow();
+        //             newRow.insertCell(0).innerText = item.date;
+        //             newRow.insertCell(1).innerText = item.amount;
+        //             newRow.insertCell(2).innerText = item.category;
+        //             newRow.insertCell(3).innerText = item.taxRate;
+        //             newRow.insertCell(4).innerText = item.taxableAmount;
+
+        //             // Handle picture loading
+        //             const pictureCell = newRow.insertCell(5);
+        //             if (item.picture) {
+        //                 const image = document.createElement('img');
+        //                 image.src = item.picture;
+        //                 image.style.maxWidth = "100px";
+        //                 pictureCell.appendChild(image);
+        //             } else {
+        //                 const uploadInput = document.createElement('input');
+        //                 uploadInput.type = 'file';
+        //                 uploadInput.accept = 'image/*';
+        //                 uploadInput.onchange = function () {
+        //                     const file = this.files[0];
+        //                     const image = document.createElement('img');
+        //                     image.src = URL.createObjectURL(file);
+        //                     image.style.maxWidth = "100px";
+        //                     pictureCell.innerHTML = '';
+        //                     pictureCell.appendChild(image);
+        //                     saveTable(); // Save table after image upload
+        //                 };
+        //                 pictureCell.appendChild(uploadInput);
+        //             }
+        //         });
+        //     });
+        // }
+
+
+
         function loadTable() {
             database.ref('tableData').once('value', snapshot => {
                 const data = snapshot.val() || [];
                 const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
                 table.innerHTML = ''; // Clear the table before adding rows
+        
+                // Convert date strings to Date objects and sort in descending order
+                data.sort((a, b) => new Date(b.date.split('/').reverse().join('-')) - new Date(a.date.split('/').reverse().join('-')));
+        
+                // Populate the table with sorted data
                 data.forEach(item => {
                     const newRow = table.insertRow();
                     newRow.insertCell(0).innerText = item.date;
@@ -142,7 +201,7 @@
                     newRow.insertCell(2).innerText = item.category;
                     newRow.insertCell(3).innerText = item.taxRate;
                     newRow.insertCell(4).innerText = item.taxableAmount;
-
+        
                     // Handle picture loading
                     const pictureCell = newRow.insertCell(5);
                     if (item.picture) {
@@ -168,6 +227,7 @@
                 });
             });
         }
+        
 
         function confirmClear() {
             if (confirm('Are you sure you want to clear the table?')) {
@@ -180,3 +240,6 @@
             table.innerHTML = '';
             database.ref('tableData').remove();
         }
+
+
+

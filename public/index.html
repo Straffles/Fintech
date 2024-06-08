@@ -18,7 +18,18 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
 <body>
-     
+    
+<div class="gallery">
+  <!-- Gallery images will be dynamically added here -->
+</div>
+
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modal-image">
+</div>
+
+
+
   <h2>Inpute Form</h2>
      
   <form id="inputForm">
@@ -41,7 +52,7 @@
       <option value="taxFree ">Tax free</option>
              
     </select>
-            <label for="pictureInput">Picture:</label>        
+     <label for="pictureInput">Picture:</label>        
     <input type="file" id="pictureInput" accept="image/*" />         <br />
     <div class="button-group">
       <button type="button" onclick="addRow()">Add Row</button>
@@ -87,6 +98,8 @@
   <br />
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="index.js"></script>
+  <script src="imgPopup.js"></script> <!-- Add this line -->
+
 </body>
 
 </html>
