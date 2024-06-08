@@ -14,7 +14,7 @@
     <h2>Inputes Form</h2>
     <form id="inputForm">
         <label for="dateInput">Date:</label>
-        <input type="datetime-local" id="dateInput" placeholder="Enter Date" />
+        <input type="datetime" id="dateInput" placeholder="Enter Date" />
         <br>
         <label for="amount">Amount:</label>
         <input type="number" id="amount" name="amount">
@@ -111,7 +111,7 @@ const firebaseConfig = {
                 }
     
                 // Get form values
-                const date = dateElem.value;
+                const date = new Date(dateElem.value).toLocaleDateString('en-GB'); // Format date as dd/mm/yyyy
                 const amount = parseFloat(amountElem.value);
                 const category = categoryElem.value;
                 const taxRate = taxRates[category];
@@ -121,6 +121,11 @@ const firebaseConfig = {
     
                 // Create a new row
                 const table = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+
+
+                // Formated vnd value
+                const formattedAmount = amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                const formattedTaxableAmount = parseInt(taxableAmount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
                 const newRow = table.insertRow();
     
                 // Insert cells and add values
